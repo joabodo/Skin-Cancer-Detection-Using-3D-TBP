@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Register as {{ role }}</h2>
+  <form method="post">
+    <label>Email: <input name="email" type="email" required></label><br/>
+    <label>Password: <input name="password" type="password" required></label><br/>
+    <label>Phone (for SMS): <input name="phone" type="text"></label><br/>
+    <label>2FA method:
+      <select name="twofa_method">
+        <option value="email">Email</option>
+        <option value="sms">SMS</option>
+      </select>
+    </label><br/>
+    <button type="submit">Register</button>
+  </form>
+{% endblock %}
