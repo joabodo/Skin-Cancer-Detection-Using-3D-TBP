@@ -1,0 +1,7 @@
+Flask>=2.2
+Flask-SQLAlchemy
+Flask-Login
+Flask-Mail
+itsdangerous
+python-dotenv
+twilio
