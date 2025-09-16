@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Two-Factor Authentication</h2>
+  <form method="post">
+    <label>Enter code: <input name="code" type="text" required></label><br/>
+    <button type="submit">Verify</button>
+  </form>
+  <p>If you didn't receive a code, try logging in again to request a new one.</p>
+{% endblock %}
