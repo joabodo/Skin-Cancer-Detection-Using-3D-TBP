@@ -1,0 +1,27 @@
+version: "3.8"
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: skinapp
+      POSTGRES_USER: skinuser
+      POSTGRES_PASSWORD: sk!npass
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+  backend:
+    build: ./backend
+    depends_on: [db]
+    environment:
+      DATABASE_URL: postgresql://skinuser:sk!npass@db/skinapp
+      MODEL_PATH: /app/model/best_model.pth
+    volumes:
+      - ./model:/app/model
+      - ./uploads:/app/uploads
+    ports:
+      - "8000:8000"
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+volumes:
+  dbdata:
