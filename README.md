@@ -119,16 +119,16 @@ http://localhost/
 
 Pages:
 
--/ → Login
--/register → Create account
--/2fa → Two-factor verification
--/setup-2fa → QR code page
--/dashboard → Overview
--/patient/:id → Patient details
--/profile → User profile
--/admin → Admin console
--/forgot → Forgot password
--/verify?token= → Email verification
+- / → Login
+- /register → Create account
+- /2fa → Two-factor verification
+- /setup-2fa → QR code page
+- /dashboard → Overview
+- /patient/:id → Patient details
+- /profile → User profile
+- /admin → Admin console
+- /forgot → Forgot password
+- /verify?token= → Email verification
 
 Backend (FastAPI)
 Development:
