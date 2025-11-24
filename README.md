@@ -56,13 +56,10 @@ The platform is built with:
 
 ---
 frontend (React)
-↓ /api requests
+/api requests
 nginx reverse proxy
-↓
 backend (FastAPI)
-↓
 PostgreSQL + Redis
-↓
 PyTorch AI Model
 
 ---
