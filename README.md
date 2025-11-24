@@ -94,30 +94,30 @@ UPLOAD_DIR=/app/uploads
 REDIS_URL=redis://redis:6379/0
 CORS_ORIGINS=*
 
-3. Add Your Model
+### 3. Add Your Model
 
 Place your trained model here:
 model/best_model.pth
 
-4. Run with Docker
+### 4. Run with Docker
 docker-compose -f docker-compose.prod.yml up --build -d
 
-5. Create Database Tables
+### 5. Create Database Tables
 docker-compose -f docker-compose.prod.yml exec backend bash
 python3 -c "from app.core.database import Base, engine; Base.metadata.create_all(engine)"
 
-Frontend
+## Frontend
 Development:
 cd frontend
 npm install
 npm start
 
-Production:
+## Production:
 
 Served automatically by Nginx on:
 http://localhost/
 
-Pages:
+## Pages:
 
 - / → Login
 - /register → Create account
@@ -130,16 +130,16 @@ Pages:
 - /forgot → Forgot password
 - /verify?token= → Email verification
 
-Backend (FastAPI)
+## Backend (FastAPI)
 Development:
 cd backend
 uvicorn app.main:app --reload
 
-API URL:
+## API URL:
 http://localhost:8000
 
-Main Endpoints
-Authentication
+## Main Endpoints
+### Authentication
 POST /auth/register
 POST /auth/login
 POST /auth/verify-2fa
@@ -147,30 +147,97 @@ POST /auth/forgot-password
 POST /auth/reset-password
 POST /auth/verify-email
 
-User
+### User
 GET /users/me
 PUT /users/me
 
-Patients
+### Patients
 POST /patients/
 GET /patients/
 GET /patients/{id}/detections
 
-AI Inference
+### AI Inference
 POST /predict/upload/{patient_id}
 POST /predict/gradcam/{detection_id}
 
-Admin
+### Admin
 POST /admin/upload-model
 
-CI/CD Pipeline
+## CI/CD Pipeline
 
 Located at:
 .github/workflows/ci-cd.yml
 
 Pipeline includes:
--Lint checks
--Build validation
--Docker image build
--Push to registry
--Optional deploy step
+- Lint checks
+- Build validation
+- Docker image build
+- Push to registry
+- Optional deploy step
+
+## Project Structure
+backend/
+  app/
+    core/
+      config.py
+      database.py
+      logging_conf.py
+    routers/
+      auth.py
+      patients.py
+      inference.py
+      users.py
+      admin.py
+    models.py
+    utils.py
+    twofactor.py
+    main.py
+  requirements.txt
+  Dockerfile
+
+frontend/
+  public/
+    index.html
+  src/
+    api.js
+    App.js
+    pages/
+      Login.js
+      Register.js
+      TwoFA.js
+      Setup2FA.js
+      Dashboard.js
+      Patient.js
+      Admin.js
+      ProfileSettings.js
+      ForgotPassword.js
+      EmailVerification.js
+    styles/
+      theme.css
+  Dockerfile
+
+nginx/
+  nginx.conf
+
+docker-compose.prod.yml
+.env.example
+uploads/
+model/
+
+## Troubleshooting
+### 502 Bad Gateway
+- Ensure frontend container is running
+- Ensure public/index.html exists
+- Ensure API_BASE = "/api" in frontend
+
+### Missing Python packages
+Run:
+docker-compose build --no-cache backend
+
+### Database tables missing
+Run:
+python3 -c "from app.core.database import Base, engine; Base.metadata.create_all(engine)"
+
+### 2FA not verifying
+Check device time sync
+Ensure secret is stored in DB
