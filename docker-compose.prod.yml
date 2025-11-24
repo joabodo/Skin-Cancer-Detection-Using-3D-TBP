@@ -1,0 +1,51 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: skinapp
+      POSTGRES_USER: skinuser
+      POSTGRES_PASSWORD: sk!npass
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    restart: unless-stopped
+
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    depends_on:
+      - db
+      - redis
+    environment:
+      DATABASE_URL: postgresql://skinuser:sk!npass@db/skinapp
+      SECRET_KEY: "CHANGE_THIS"
+      MODEL_PATH: /app/model/best_model.pth
+      UPLOAD_DIR: /app/uploads
+      REDIS_URL: redis://redis:6379/0
+    volumes:
+      - ./model:/app/model
+      - ./uploads:/app/uploads
+    expose:
+      - "8000"
+
+  frontend:
+    build: ./frontend
+    restart: unless-stopped
+    expose:
+      - "3000"
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - frontend
+      - backend
+
+volumes:
+  dbdata:
